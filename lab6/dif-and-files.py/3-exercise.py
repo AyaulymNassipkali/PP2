@@ -1,5 +1,5 @@
 import os
-path= r"/Users/ayaulym/Documents"
+path= r"/Users/AyaulymNassipkali/Documents"
 def checker(path):
     if os.path.exists(path):
         print("Name of file: ", os.path.basename(path))
