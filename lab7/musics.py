@@ -68,7 +68,7 @@ while run:
     text2 = font2.render(os.path.basename(playlist[index]), True, (20, 20, 50))
     
     
-    screen.blit(background, (-50, 0))
+    screen.blit(background, (158, 0))
     screen.blit(bg, (155, 500))
     screen.blit(text2, (365, 520))
     playb = pygame.transform.scale(playb, (70, 70))
