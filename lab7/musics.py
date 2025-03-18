@@ -12,7 +12,7 @@ for song in allmusic:
         playlist.append(os.path.join(music_folder, song))
 
 screen = pygame.display.set_mode((800, 800))
-pygame.display.set_caption("Darkhan-Juzz")
+pygame.display.set_caption("Billie Eilish")
 clock = pygame.time.Clock()
 
 
@@ -68,9 +68,9 @@ while run:
     text2 = font2.render(os.path.basename(playlist[index]), True, (20, 20, 50))
     
     
-    screen.blit(background, (158, 0))
+    screen.blit(background, (35, 0))
     screen.blit(bg, (155, 500))
-    screen.blit(text2, (365, 520))
+    screen.blit(text2, (320, 520))
     playb = pygame.transform.scale(playb, (70, 70))
     pausb = pygame.transform.scale(pausb, (70, 70))
     if aplay:
