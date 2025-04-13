@@ -12,8 +12,6 @@ conn = psycopg2.connect(
 cur = conn.cursor()
 
 
-
-# Создание таблицы, если её ещё нет
 cur.execute("""
     CREATE TABLE IF NOT EXISTS snake_game_scores (
         id SERIAL PRIMARY KEY,
@@ -24,7 +22,6 @@ cur.execute("""
 """)
 conn.commit()
 
-# Функции для работы с БД
 def insert_score(name, score, level):
     cur.execute("INSERT INTO snake_game_scores (player_name, score, level) VALUES (%s, %s, %s)", (name, score, level))
     conn.commit()
@@ -38,7 +35,7 @@ def show_scores(name=None):
     headers = ["Name", "Score", "Level"] if not name else ["Score", "Level"]
     print(tabulate(rows, headers=headers, tablefmt="fancy_grid"))
 
-# Основная игра
+
 def play_game():
     pygame.init()
     SCREEN_WIDTH, SCREEN_HEIGHT = 600, 400
@@ -67,7 +64,6 @@ def play_game():
     show_scores(player_name) 
 
     def check_collision(pos, level):
-        # Столкновение с левой или правой границей экрана
         if pos[0] < 0 or pos[0] >= SCREEN_WIDTH :
             return True
         if pos in snake_pos[1:]:
@@ -76,7 +72,6 @@ def play_game():
         return False
 
     def check_wrap(pos):
-        # Телепортация змейки при выходе за верхнюю или нижнюю границу экрана
         if pos[1] < 0:
             pos[1] = SCREEN_HEIGHT - 10
         elif pos[1] > SCREEN_HEIGHT - 10:
@@ -115,13 +110,12 @@ def play_game():
                 elif event.key == pygame.K_s and paused:
                     insert_score(player_name, score, level)
                     print(f"[✔] Score saved: {score} (Level {level})")
-                    saved_text_timer = pygame.time.get_ticks()  # для отображения "Saved" на экране
+                    saved_text_timer = pygame.time.get_ticks()  
 
 
         if not paused:
             snake_pos.insert(0, [snake_pos[0][0] + snake_speed[0], snake_pos[0][1] + snake_speed[1]])
 
-            # Проверка на столкновение с границами или телепортация
             snake_pos[0] = check_wrap(snake_pos[0])
             if check_collision(snake_pos[0], level):
                 insert_score(player_name, score, level)
@@ -152,7 +146,7 @@ def play_game():
                 food = get_random_food()
                 food_spawn = False
 
-            # Проверка на истечение времени жизни фрукта
+            
             if pygame.time.get_ticks() - food['spawn_time'] > 10000:
                 food_spawn = True
 
@@ -167,7 +161,6 @@ def play_game():
         score_text = font.render(f"Score: {score} Level: {level}", True, WHITE)
         screen.blit(score_text, [0, 0])
 
-    
         if paused:
             pause_text = font.render("Paused", True, WHITE)
             screen.blit(pause_text, [SCREEN_WIDTH // 2 - 30, SCREEN_HEIGHT // 2])
@@ -175,12 +168,10 @@ def play_game():
             if pygame.time.get_ticks() - saved_text_timer < 2000:
                 saved_text = font.render("✔ Saved!", True, (0, 255, 0))
                 screen.blit(saved_text, [SCREEN_WIDTH // 2 - 40, SCREEN_HEIGHT // 2 + 30])
-
-
+                
         pygame.display.flip()
         fps.tick(10 + level * speed_increase)
 
-# Консольное меню
 def menu():
     while True:
         print("""
